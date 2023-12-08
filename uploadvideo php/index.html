@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Upload Form</title>
+  </head>
+  <body>
+    <h2>Video Upload Form</h2>
+
+    <form id="uploadForm" enctype="multipart/form-data" method="post">
+      <label for="file">Select Video:</label>
+      <input type="file" name="file" id="file" accept="video/*" required />
+      <br />
+      <button type="button" onclick="uploadVideo()">Upload Video</button>
+    </form>
+
+    <script>
+      function uploadVideo() {
+        // Get the form and the file input
+        const form = document.getElementById("uploadForm");
+        const fileInput = document.getElementById("file");
+
+        // Create a FormData object to handle the file upload
+        const formData = new FormData(form);
+
+        // Make a POST request using the fetch API
+        fetch("http://localhost/uploadvideo/CreateVideo.php", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            // Handle the response from the server
+            if (data.success) {
+              alert("Video uploaded successfully");
+            } else {
+              alert("Error: " + data.message);
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+    </script>
+  </body>
+</html>
